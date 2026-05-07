@@ -25,5 +25,36 @@ namespace TVProgram.Tests
             Assert.That(info.Length, Is.EqualTo(2));
             Assert.That(info[0], Does.Contain("Новости"));
         }
+
+        [Test]
+        public void TVSeries_GetInfo_ReturnsThreeLines()
+        {
+            var series = new TVSeries("Офис", "Стив Карелл", "Комедия", ShowPeriodicity.Weekly, "10.05.2026 20:00", 1, 5);
+
+            var info = series.GetInfo();
+
+            Assert.That(info.Length, Is.EqualTo(3));
+            Assert.That(info[2], Does.Contain("Сезон: 1"));
+        }
+
+        [Test]
+        public void EducationalShow_GetInfo_ReturnsThreeLines()
+        {
+            var eduShow = new EducationalShow("Наука 2.0", "Антон Войцеховский", "Про технологии", ShowPeriodicity.Monthly, "12.05.2026 15:00", "Физика");
+            var info = eduShow.GetInfo();
+
+            Assert.That(info.Length, Is.EqualTo(3));
+            Assert.That(info[2], Does.Contain("Физика"));
+        }
+
+        [Test]
+        public void Movie_GetInfo_ReturnsFourLines()
+        {
+            var movie = new Movie("Интерстеллар", "К. Нолан", "Научная фантастика", ShowPeriodicity.OneTime, "15.05.2026 21:00", "Драма", "Кристофер Нолан", "США", 2014);
+            var info = movie.GetInfo();
+
+            Assert.That(info.Length, Is.EqualTo(4));
+            Assert.That(info[3], Does.Contain("2014г."));
+        }
     }
 }
