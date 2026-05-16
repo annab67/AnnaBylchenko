@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TVProgram
 {
-    public class Show
+    public class Show : IComparable<Show>
     {
         public string Title {get; set;}           // Название
         public string Host {get; set;}            // Ведущий
@@ -34,6 +34,11 @@ namespace TVProgram
             info[0] = $"{Title} (Ведущий: {Host})";
             info[1] = $"Выход: {AirTime:f}. Тип: {Periodicity}.";
             return info;
+        }
+        public int CompareTo(Show other)
+        {
+            if (other == null) return 1;
+            return AirTime.CompareTo(other.AirTime);
         }
     }
 }

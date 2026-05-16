@@ -56,5 +56,38 @@ namespace TVProgram.Tests
             Assert.That(info.Length, Is.EqualTo(4));
             Assert.That(info[3], Does.Contain("2014г."));
         }
+        [Test]
+        public void Show_CompareTo_SortsByAirTime()
+        {
+            var morningShow = new Show("Утренние новости", "Ведущий 1", "Инфо", ShowPeriodicity.Daily, "20.05.2026 08:00");
+            var eveningShow = new Show("Вечернее шоу", "Ведущий 2", "Развлечения", ShowPeriodicity.Daily, "20.05.2026 21:00");
+
+            Assert.That(morningShow.CompareTo(eveningShow), Is.LessThan(0));
+            Assert.That(eveningShow.CompareTo(morningShow), Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void Program_Constructor_FiltersAndSortsCorrectly()
+        {
+            var showToday1 = new Show("Вечернее шоу", "Диктор", "Инфо", ShowPeriodicity.Daily, "25.05.2026 20:00");
+            var showToday2 = new Show("Утренний эфир", "Диктор", "Инфо", ShowPeriodicity.Daily, "25.05.2026 09:00");
+            var showTomorrow = new Show("Завтрашний фильм", "Диктор", "Кино", ShowPeriodicity.OneTime, "26.05.2026 18:00");
+
+            var allShows = new List<Show> { showToday1, showToday2, showTomorrow };
+
+            var targetDate = new DateTime(2026, 5, 25);
+            var program = new Program(targetDate, allShows);
+
+            Assert.That(program.Count, Is.EqualTo(2));
+
+            var sortedList = new List<Show>();
+            foreach (var show in program)
+            {
+                sortedList.Add(show);
+            }
+
+            Assert.That(sortedList[0].Title, Is.EqualTo("Утренний эфир"));
+            Assert.That(sortedList[1].Title, Is.EqualTo("Вечернее шоу"));
+        }
     }
 }
